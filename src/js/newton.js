@@ -1,0 +1,1 @@
+window.Newton = window.Newton || {};
