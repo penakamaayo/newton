@@ -1,31 +1,26 @@
-(function(){
+(function(namespace){
 
-  var self = Newton.Element = function(elementType, attributes, children){
+  var self = namespace.Element = function(elementType, attributes){
     this.elementType = elementType;
     this.attributes = attributes;
-    this.children = children;
-
-    this._initializeElement();
+    this.children = [];
+    this.element = this._createParentNode( this.elementType );
   };
 
 
+
   self.prototype.render = function(){
-    if ( this.children ) this._appendChildren( this.children );
+    this._appendAttributes();
 
     return this.element;
   };
 
   self.prototype.setChildren = function(children){
-    this._appendChildren(children);
+    this._clearChildren();
+    this._setChildren(children);
   };
 
 
-
-
-  self.prototype._initializeElement = function(){
-    this.element = this._createParentNode( this.elementType );
-    this._appendAttributes();
-  }
 
   self.prototype._createParentNode = function(){
     return document.createElement( this.elementType );
@@ -39,7 +34,13 @@
     }
   };
 
-  self.prototype._appendChildren = function(children){
+  self.prototype._clearChildren = function(){
+    while ( this.element.hasChildNodes() ) {
+      this.element.removeChild( this.element.lastChild );
+    }
+  };
+
+  self.prototype._setChildren = function(children){
     for ( var i = 0; i < children.length; i++ ){
       var child = children[i];
       this._appendChild(child);
@@ -48,14 +49,15 @@
 
   self.prototype._appendChild = function(child){
     var node;
-    if ( typeof child === 'string' ){
-      node = document.createTextNode(child);
+
+    if (child instanceof namespace.Element) {
+      node = child.render().cloneNode(true);
     }
     else {
-      node = child.element.cloneNode(true);
+      node = document.createTextNode(child);
     }
 
     this.element.appendChild(node);
   }
 
-})();
+})(Newton);
