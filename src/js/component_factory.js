@@ -13,7 +13,9 @@
   };
 
   self.prototype._createConstructor = function(){
-    return function(){
+    return function(props){
+      namespace.Component.call(this, props);
+
       this.state = this.getInitialState();
     };
   };
@@ -28,4 +30,3 @@
 
 
 })(Newton);
-
