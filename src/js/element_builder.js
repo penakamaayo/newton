@@ -7,27 +7,30 @@
     var element = null;
 
     if (typeOrComponentClass.prototype instanceof namespace.Component) {
-      element = new typeOrComponentClass(attributesOrProps);
+      var component = new typeOrComponentClass(attributesOrProps);
+
+      element = component.render();
+      element.attributes['data-newtonid'] = component.getUID();
     }
 
     else {
       element = new namespace.Element( typeOrComponentClass, attributesOrProps );
-
       if (children) element.setChildren(children);
-      element = element.render();
     }
 
     return element;
   };
 
+
+  window.$ = function(typeOrComponentClass, attributesOrProps, ...children){
+    var builder = new Newton.ElementBuilder();
+
+    return builder.build(typeOrComponentClass, attributesOrProps, children);
+  };
+
+
 })(Newton);
 
-
-window.$ = function(typeOrComponentClass, attributesOrProps, ...children){
-  var builder = new Newton.ElementBuilder();
-
-  return builder.build(typeOrComponentClass, attributesOrProps, children);
-};
 
 
 

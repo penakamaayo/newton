@@ -4,19 +4,17 @@
   };
 
   self.prototype.make = function(properties){
-    var constructor = this._createConstructor();
+    var constructor = this._createConstructor(properties);
 
-    constructor.prototype = Object.create(namespace.Component.prototype);
+    constructor.prototype.__proto__ = namespace.Component.prototype;
     this._createProperties(constructor, properties);
 
     return constructor;
   };
 
-  self.prototype._createConstructor = function(){
+  self.prototype._createConstructor = function(properties){
     return function(props){
       namespace.Component.call(this, props);
-
-      this.state = this.getInitialState();
     };
   };
 

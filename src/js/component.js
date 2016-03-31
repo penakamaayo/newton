@@ -1,12 +1,14 @@
 (function(namespace){
-  var UID = 0;
+  var uid = 0;
 
   var self = namespace.Component = function(props) {
-    this.props = props;
+    this.props = props || {};
+    this.uid = uid++;
+    this.state = this.getInitialState();
   };
 
   self.prototype.getUID = function(){
-    return UID++;
+    return this.uid;
   };
 
   self.prototype.render = function(){
