@@ -11,11 +11,13 @@
 
       element = component.render();
       element.attributes['data-newtonid'] = component.getUID();
+      element.setMainComponent(component);
     }
 
     else {
       element = new namespace.Element( typeOrComponentClass, attributesOrProps );
       if (children) element.setChildren(children);
+      element.setSubComponents(children);
     }
 
     return element;

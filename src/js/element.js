@@ -5,6 +5,7 @@
     this.attributes = attributes;
     this.children = [];
     this.element = this._createParentNode( this.elementType );
+    this.associatedComponents = [];
   };
 
 
@@ -20,7 +21,21 @@
     this._setChildren(children);
   };
 
+  self.prototype.components = function(){
+    return this.associatedComponents;
+  }
 
+  self.prototype.setMainComponent = function(component){
+    this.associatedComponents.splice(0, 0, component) ;
+  };
+
+  self.prototype.setSubComponents = function(children){
+    for (var i = 0; i < children.length; i++){
+      if (children[i] instanceof Newton.Element){
+        this.associatedComponents.push.apply(this.associatedComponents, children[i].components());
+      }
+    }
+  },
 
   self.prototype._createParentNode = function(){
     return document.createElement( this.elementType );
@@ -29,7 +44,9 @@
   self.prototype._appendAttributes = function(){
     for ( var key in this.attributes ){
       if ( this.attributes.hasOwnProperty(key) ) {
-        this.element[key] = this.attributes[key];
+        (typeof this.element[key] === 'undefined') ?
+          this.element.setAttribute(key, this.attributes[key]) :
+          this.element[key] = this.attributes[key];
       }
     }
   };
