@@ -32,7 +32,9 @@
   self.prototype.setSubComponents = function(children){
     for (var i = 0; i < children.length; i++){
       if (children[i] instanceof Newton.Element){
-        this.associatedComponents.push.apply(this.associatedComponents, children[i].components());
+        for(var j = 0; j < children[i].components().length; j++){
+          this.associatedComponents.push( children[i].components()[j] );
+        }
       }
     }
   },
