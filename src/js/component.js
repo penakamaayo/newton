@@ -25,6 +25,8 @@
         this.state[key] = newState[key];
       }
     }
+
+    namespace.DOM.update(this);
   };
 
 

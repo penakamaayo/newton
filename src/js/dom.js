@@ -12,9 +12,11 @@
 
     update: function(component){
       var updatedElement = component.render(),
-            selector = "[data-newtonid='" + component.getUID() + "']"
+              uid = component.getUID();
+            selector = "[data-newtonid='" + uid + "']"
               node = document.querySelectorAll(selector)[0];
 
+      updatedElement.attributes['data-newtonid'] = uid;
       node.parentNode.replaceChild(updatedElement.render(), node);
     },
 
