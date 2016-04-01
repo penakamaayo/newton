@@ -10,6 +10,15 @@
     },
 
 
+    update: function(component){
+      var updatedElement = component.render(),
+            selector = "[data-newtonid='" + component.getUID() + "']"
+              node = document.querySelectorAll(selector)[0];
+
+      node.parentNode.replaceChild(updatedElement.render(), node);
+    },
+
+
     render: function(element, htmlElement){
       var components = element.components();
 

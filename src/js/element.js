@@ -2,7 +2,7 @@
 
   var self = namespace.Element = function(elementType, attributes){
     this.elementType = elementType;
-    this.attributes = attributes;
+    this.attributes = attributes || [];
     this.children = [];
     this.element = this._createParentNode( this.elementType );
     this.associatedComponents = [];
